@@ -10,4 +10,10 @@ For a better understanding of the tools employed and the structure of the pipeli
 Each script includes information about its purpose, input requirements and filtering strategies.
 
 ## Author
-@patrisanfar
+Patricia Sánchez Fariña
+
+## 1. First steps
+
+Pre-processing and alignment are performed using the nf-core/sarek framework, a workflow developed by the nf-core community in Nextflow for germline variant detection from whole genome, exome, or targeted sequencing data.
+
+This step is executed by launching the `sarek_launch.sbatch` script, using FASTQ files as input.
