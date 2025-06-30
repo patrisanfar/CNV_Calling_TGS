@@ -20,6 +20,8 @@ This step was executed by launching the `sarek_launch.sbatch` script, which take
 
 Once preprocessed BAMs are available, the full CNV detection and annotation workflow is launched using the script `run_CNV_pipeline.sh`. This main script manages all subsequent steps (CNV calling, merging and annotation) through SLURM job submission, setting the order of execution via job dependencies.
 
+All paths and parameters used throughout the pipeline are defined in the file `config.sh`.
+
 ## 2. CNV calling
 
 Copy number variation detection was performed using five open-source tools suitable for use with targeted sequencing data:
@@ -30,9 +32,33 @@ Copy number variation detection was performed using five open-source tools suita
 - [panelcn.MOPS](https://github.com/bioinf-jku/panelcn.mops)
 - [ClinCNV](https://github.com/imgag/ClinCNV)
 
-Each method was executed separately using tool-specific launcher scripts (e.g., 00_launcher_panelcn.mops.sbatch) with a shared BED file defining the panel regions. All jobs were submitted by run_CNV_pipeline.sh and executed in a high-performance computing environment using SLURM. Containerized environments were handled via Apptainer to ensure full reproducibility.
+Each tool was run independently using tool-specific launcher scripts (e.g., `00_launcher_panelcn.mops.sbatch`). All receive their parameters from the central configuration file.
 
-The outputs of each tool consist of CNV calls per sample, including genomic coordinates, CNV type (deletion/duplication), and quality metrics.
+These tools were executed automatically within the `run_CNV_pipeline.sh` script. Each tool was run independently using tool-specific launcher scripts (e.g., `00_launcher_panelcn.mops.sbatch`) , with input parameters loaded from the shared `config.sh` configuration file.
+
+The output of each tool includes per-sample CNV calls, specifying genomic coordinates, variant type (deletion/duplication), and quality metrics. These results are later combined in the mixing step to identify consensus CNVs.
 
 ## 3. Mixing
+
+After CNV detection has finished, the pipeline proceeds to merge the results from the five tools. This step is handled by the script `00_launcher_mixer.sh`.
+
+The merging strategy relies on exon midpoint overlap to group CNVs affecting the same gene, sample, and variant type. For each unified event, the script records how many tools detected it and includes relevant quality metrics. The resulting CNV table includes the variant type, coordinates, the number of tools that detected each event and tool-specific quality metrics.
+
+This step is automatically launched within the main pipeline script `run_CNV_pipeline.sh` after the CNV calling stage.
+
+## 4. Annotation 
+
+Once the CNV merging step is completed, the pipeline performs functional and clinical annotation of the resulting variants. This is done in two sequential steps:
+
+- The script `00_launcher_annotsv.sh` runs AnnotSV to annotate the unified CNV list using the `GRCh38` reference genome.
+
+- Then, `00_launcher_ResultAnnotationMix.sh` combines the annotation output with the original CNV table, producing a final annotated file that unifies both structural and functional information.
+
+These steps are also submitted by `run_CNV_pipeline.sh`. The resulting annotated CNVs are suitable for downstream analysis and clinical interpretation.
+
+## 5. Workflow
+
+The complete pipeline structure is summarized in the diagram below:
+
+![Workflow](https://github.com/user-attachments/assets/e39902c7-7aa5-4b33-be83-10f47cd7caf9)
 
