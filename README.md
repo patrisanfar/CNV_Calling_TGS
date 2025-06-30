@@ -14,6 +14,22 @@ Patricia Sánchez Fariña
 
 ## 1. First steps
 
-Pre-processing and alignment are performed using the nf-core/sarek framework, a workflow developed by the nf-core community in Nextflow for germline variant detection from whole genome, exome, or targeted sequencing data.
+Pre-processing and alignment were performed using the nf-core/sarek framework, a workflow written in Nextflow by the nf-core community for germline variant detection from whole genome, exome, or targeted panel sequencing data.
 
-This step is executed by launching the `sarek_launch.sbatch` script, using FASTQ files as input.
+This step was executed by launching the `sarek_launch.sbatch` script, which takes raw FASTQ files as input and produces preprocessed BAM files aligned to the `GRCh38` reference genome.
+
+Once preprocessed BAMs are available, the full CNV detection and annotation workflow is launched using the script `run_CNV_pipeline.sh`. This main script manages all subsequent steps (CNV calling, merging and annotation) through SLURM job submission, setting the order of execution via job dependencies.
+
+## 2. CNV calling
+
+Copy number variation detection was performed using five independent tools specifically optimized for targeted sequencing data:
+
+- [DECoN](https://github.com/RahmanTeam/DECoN)
+- [CODEX2](https://github.com/yuchaojiang/CODEX2)
+- [CoNVaDING](https://github.com/molgenis/CoNVaDING)
+- [panelcn.MOPS](https://github.com/genepi/panelcn.MOPS)
+- [ClinCNV](https://github.com/imgag/ClinCNV)
+
+Each method was executed separately using tool-specific launcher scripts (e.g., 00_launcher_panelcn.mops.sbatch) with a shared BED file defining the panel regions. All jobs were submitted by run_CNV_pipeline.sh and executed in a high-performance computing environment using SLURM. Containerized environments were handled via Apptainer to ensure full reproducibility.
+
+The outputs of each tool consist of CNV calls per sample, including genomic coordinates, CNV type (deletion/duplication), and quality metrics.
