@@ -30,7 +30,7 @@ The pipeline includes five tools commonly used for CNV detection in targeted NGS
 - [panelcn.MOPS](https://github.com/bioinf-jku/panelcn.mops)
 - [ClinCNV](https://github.com/imgag/ClinCNV)
 
-Each tool was run independently using tool-specific launcher scripts (e.g., `00_launcher_panelcn.mops.sbatch`). All of them used input variables loaded from the shared `config.sh` file.
+Each tool was run independently using tool-specific launcher scripts (e.g., `00_launcher_panelcn.mops.sbatch`). All of them used input variables loaded from the shared `config.sh` file. Each launcher internally runs the original scripts provided by the official repositories of the tools, which are linked above.
 
 The outputs includes per-sample CNV calls, specifying genomic coordinates, CNV type  (deletion/duplication) and quality metrics. These results are later combined in the mixing step to identify CNVs detected by multiple tools.
 
