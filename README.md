@@ -5,7 +5,7 @@ This repository contains the CNV detection pipeline developed as part of a maste
 
 Once implemented, the pipeline is applied to a Parkinson’s disease cohort to evaluate its performance and detect clinically relevant variants.
 
-Each script includes information about its purpose and inputs required. For a better understanding of the tools employed and the structure of the pipeline, please consult the workflow section below.
+Each script includes information about its purpose and inputs required. For a better understanding of the tools employed and the structure of the pipeline, please consult the [workflow](#5-workflow) section below.
 
 ## Author
 Patricia Sánchez Fariña
