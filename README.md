@@ -3,7 +3,7 @@
 
 This repository contains the CNV detection pipeline developed as part of a master’s thesis project focused on detecting copy number variants (CNVs) from targeted sequencing data. The workflow integrates five open-source tools (DECoN, CODEX2, CoNVaDING, panelcn.MOPS and ClinCNV) into a unified pipeline for CNV detection, merging and annotation.
 
-Once implemented, the pipeline was applied to a Parkinson’s disease cohort to evaluate its performance and detect clinically relevant variants.
+Once implemented, the pipeline is applied to a Parkinson’s disease cohort to evaluate its performance and detect clinically relevant variants.
 
 Each script includes information about its purpose and inputs required. For a better understanding of the tools employed and the structure of the pipeline, please consult the workflow section below.
 
@@ -12,9 +12,9 @@ Patricia Sánchez Fariña
 
 ## 1. First steps
 
-Pre-processing and alignment of raw FASTQ files were performed using the [nf-core/sarek](https://github.com/nf-core/sarek), a Nextflow-based workflow developed by the nf-core community for germline variant detection in whole-genome, exome or panel sequencing data.
+Pre-processing and alignment of raw FASTQ files are performed using the [nf-core/sarek](https://github.com/nf-core/sarek), a Nextflow-based workflow developed by the nf-core community for germline variant detection in whole-genome, exome or panel sequencing data.
 
-This step was executed by launching the `sarek_launch.sbatch` script, which takes FASTQ files as input and generates BAM files aligned to the `GRCh38` reference genome. It has an associated configuration file called `config_sarek.sh`, which defines input paths and parameters used.
+This step is executed by launching the `sarek_launch.sbatch` script, which takes FASTQ files as input and generates BAM files aligned to the `GRCh38` reference genome. It has an associated configuration file called `config_sarek.sh`, which defines input paths and parameters used.
 
 Once the BAMs are generated, the main CNV analysis is launched using the script `run_CNV_pipeline.sh`. This central script manages all subsequent steps (CNV calling, merging and annotation) through SLURM job submission, setting the order of execution via job dependencies.
 
@@ -30,9 +30,9 @@ The pipeline includes five tools commonly used for CNV detection in targeted NGS
 - [panelcn.MOPS](https://github.com/bioinf-jku/panelcn.mops)
 - [ClinCNV](https://github.com/imgag/ClinCNV)
 
-Each tool was run independently using tool-specific launcher scripts (e.g., `00_launcher_panelcn.mops.sbatch`). All of them used input variables loaded from the shared `config.sh` file. Each launcher internally runs the original scripts provided by the official repositories of the tools, which are linked above.
+Each tool is run independently using tool-specific launcher scripts (e.g., `00_launcher_panelcn.mops.sbatch`). All of them use input variables loaded from the shared `config.sh` file. Each launcher internally runs the original scripts provided by the official repositories of the tools, which are linked above.
 
-The outputs includes per-sample CNV calls, specifying genomic coordinates, CNV type  (deletion/duplication) and quality metrics. These results are later combined in the mixing step to identify CNVs detected by multiple tools.
+The outputs include per-sample CNV calls, specifying genomic coordinates, CNV type (deletion/duplication) and quality metrics. These results are later combined in the mixing step to identify CNVs detected by multiple tools.
 
 ## 3. CNV merging
 
@@ -46,7 +46,7 @@ This step is automatically launched within the main pipeline script `run_CNV_pip
 
 ## 4. Annotation 
 
-Once the CNV merging step is completed, CNVs were annotated in two steps:
+Once the CNV merging step is completed, CNVs are annotated in two steps:
 
 - `00_launcher_annotsv.sh` runs AnnotSV to add functional and clinical information based on the `GRCh38` reference genome.
 
