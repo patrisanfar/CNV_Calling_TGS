@@ -1,5 +1,4 @@
-# CNV Calling in TGS
-### Development of a pipeline for Copy Number Variant detection in targeted sequencing
+# Development of a pipeline for Copy Number Variant detection in targeted sequencing
 
 This repository contains the CNV detection pipeline developed as part of a master’s thesis project focused on detecting copy number variants (CNVs) from targeted sequencing data. The workflow integrates five open-source tools (DECoN, CODEX2, CoNVaDING, panelcn.MOPS and ClinCNV) into a unified pipeline for CNV detection, merging and annotation.
 
