@@ -57,7 +57,4 @@ Both annotation steps are automatically launched by `run_CNV_pipeline.sh`, produ
 
 The structure of the complete pipeline is shown in the diagram below:
 
-![Workflow](https://github.com/user-attachments/assets/9653860a-79c4-4dc9-8624-b9731d344b1c)
-
-
-
+![Workflow](https://github.com/user-attachments/assets/608a3db1-9151-4c3b-9970-11e00e51b635)
